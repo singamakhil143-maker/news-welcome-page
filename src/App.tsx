@@ -1,3 +1,4 @@
+import { useState } from 'react';
 
 const FLASHDATA = [
   { id: 1, category: "Tech", title: "New AI model surpasses human reasoning" },
@@ -33,13 +34,46 @@ const NEWSDATA = [
   }
 ];
 
+const CATEGORIES = ["All", "World News", "Innovation", "Environment"];
+
 function App() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const filteredNews = NEWSDATA.filter(news => {
+    const matchesSearch = news.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          news.summary.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === "All" || news.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
   return (
     <div className="container">
       <header>
         <div className="logo">FLASHNEWS</div>
         <p className="tagline">Your window into the world's most critical updates.</p>
       </header>
+
+      <div className="search-section">
+        <input 
+          type="text" 
+          placeholder="Search news stories..." 
+          className="search-input"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <div className="category-filters">
+          {CATEGORIES.map(cat => (
+            <button 
+              key={cat} 
+              className={`filter-btn ${selectedCategory === cat ? 'active' : ''}`}
+              onClick={() => setSelectedCategory(cat)}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="live-indicator">
         <div className="dot"></div>
@@ -60,7 +94,7 @@ function App() {
       </header>
 
       <div className="news-grid">
-        {NEWSDATA.map(news => (
+        {filteredNews.map(news => (
           <div key={news.id} className="news-card">
             <img src={news.image} alt={news.title} className="news-image" />
             <div className="news-content">
@@ -74,6 +108,11 @@ function App() {
             </div>
           </div>
         ))}
+        {filteredNews.length === 0 && (
+          <p style={{ gridColumn: '1/-1', textAlign: 'center', padding: '3rem', color: 'var(--text-dim)' }}>
+            No news found matching your criteria.
+          </p>
+        )}
       </div>
     </div>
   );
