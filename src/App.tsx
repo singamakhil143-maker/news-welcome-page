@@ -50,7 +50,9 @@ function App() {
   return (
     <div className="container">
       <header>
-        <div className="logo">NEON-NEWS</div>
+
+        <div className="logo">ELITE-NEWS</div>
+
         <p className="tagline">Your window into the world's most critical updates.</p>
       </header>
 
