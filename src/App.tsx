@@ -41,8 +41,8 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const filteredNews = NEWSDATA.filter(news => {
-    const matchesSearch = news.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          news.summary.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = news.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      news.summary.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === "All" || news.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
@@ -50,22 +50,22 @@ function App() {
   return (
     <div className="container">
       <header>
-        <div className="logo">FLASHNEWS</div>
+        <div className="logo">ELITE-NEWS</div>
         <p className="tagline">Your window into the world's most critical updates.</p>
       </header>
 
       <div className="search-section">
-        <input 
-          type="text" 
-          placeholder="Search news stories..." 
+        <input
+          type="text"
+          placeholder="Search news stories..."
           className="search-input"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         <div className="category-filters">
           {CATEGORIES.map(cat => (
-            <button 
-              key={cat} 
+            <button
+              key={cat}
               className={`filter-btn ${selectedCategory === cat ? 'active' : ''}`}
               onClick={() => setSelectedCategory(cat)}
             >
